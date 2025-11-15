@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class SimplePlayerController : MonoBehaviour
 {
     [Header("Parameters")]
     [SerializeField] float maxHorizontalSpeed = 7.5f;
@@ -31,15 +31,15 @@ public class PlayerController : MonoBehaviour
     // Update() is called every frame.
     private void Update()
     {
-        inputX = Input.GetAxisRaw("Horizontal"); // Gets the input on the horizontal axis set project settings
+        inputX = Input.GetAxisRaw("SimpleHorizontal"); // Gets the input on the horizontal axis set project settings
 
         isGrounded = IsGrounded();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             jumpKeyPressed = true;
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             jumpKeyReleased = true;
         }
@@ -78,6 +78,13 @@ public class PlayerController : MonoBehaviour
 
     private void updateAnimation()
     {
-        spriteRenderer.flipX = rb2D.velocity.x < 0.0f;
+        if (inputX > 0.0f)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (inputX < 0.0f)
+        {
+            spriteRenderer.flipX = true;
+        }
     }
 }
