@@ -7,7 +7,7 @@ public class SimplePlayerController : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] float maxHorizontalSpeed = 7.5f;
     [SerializeField] float jumpVelocity = 7.5f;
-    [SerializeField] float jumpHeightMultiplier = 0.5f;
+    [SerializeField] float variableJumpHeightMultiplier = 0.5f;
     [SerializeField] LayerMask jumpableSurface;
 
     [Header("Debug Info")]
@@ -60,7 +60,7 @@ public class SimplePlayerController : MonoBehaviour
         }
         if (jumpKeyReleased && velocity.y > 0.0f)
         {
-            velocity.y = rb2D.velocity.y * jumpHeightMultiplier;
+            velocity.y = rb2D.velocity.y * variableJumpHeightMultiplier;
         }
 
         jumpKeyPressed = false;

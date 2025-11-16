@@ -11,6 +11,7 @@ public class ComplexPlayerController : MonoBehaviour
     [SerializeField] float apexJumpHeight = 4f; // units
     [SerializeField] float timeToReachApex = 1.0f; // sec
     [SerializeField] float timeToFallToGround = 1.0f; // different falling gravity (sec)
+    [SerializeField] float variableJumpHeightMultiplier = 0.5f;
     [SerializeField] LayerMask jumpableSurface;
 
     [Header("Debug Info")]
@@ -36,9 +37,6 @@ public class ComplexPlayerController : MonoBehaviour
     // Update() is called every frame.
     private void Update()
     {
-        jumpVelocity = 2 * apexJumpHeight / timeToReachApex;
-        rb2D.gravityScale = -2 * apexJumpHeight / timeToReachApex / timeToReachApex / Physics2D.gravity.y;
-
         inputX = Input.GetAxisRaw("ComplexHorizontal"); // Gets the input on the horizontal axis set project settings
 
         isGrounded = IsGrounded();
@@ -53,6 +51,7 @@ public class ComplexPlayerController : MonoBehaviour
         }
 
         rb2D.gravityScale = getGravityScale();
+        jumpVelocity = 2 * apexJumpHeight / timeToReachApex;
 
         updateAnimation();
     }
@@ -67,6 +66,10 @@ public class ComplexPlayerController : MonoBehaviour
         if (jumpKeyPressed && isGrounded)
         {
             velocity.y = jumpVelocity;
+        }
+        if (jumpKeyReleased && velocity.y > 0.0f)
+        {
+            velocity.y = rb2D.velocity.y * variableJumpHeightMultiplier;
         }
 
         jumpKeyPressed = false;
