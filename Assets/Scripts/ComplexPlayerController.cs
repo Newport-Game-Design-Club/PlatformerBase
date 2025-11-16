@@ -8,8 +8,9 @@ public class ComplexPlayerController : MonoBehaviour
     [SerializeField] float maxHorizontalSpeed = 7.5f;
 
     [Header("Jumping")]
-    [SerializeField] float apexJumpHeight = 7.5f; // units
+    [SerializeField] float apexJumpHeight = 4f; // units
     [SerializeField] float timeToReachApex = 1.0f; // sec
+    [SerializeField] float timeToFallToGround = 1.0f; // different falling gravity (sec)
     [SerializeField] LayerMask jumpableSurface;
 
     [Header("Debug Info")]
@@ -51,6 +52,8 @@ public class ComplexPlayerController : MonoBehaviour
             jumpKeyReleased = true;
         }
 
+        rb2D.gravityScale = getGravityScale();
+
         updateAnimation();
     }
 
@@ -73,6 +76,18 @@ public class ComplexPlayerController : MonoBehaviour
         rb2D.velocity = velocity; // Sets the velocity, moving the player.
     }
 
+    private float getGravityScale()
+    {
+        if (rb2D.velocity.y < 0.0f) // fast-fall gravity
+        {
+            return -2 * apexJumpHeight / timeToFallToGround / timeToFallToGround / Physics2D.gravity.y;
+        }
+        else // regular gravity
+        {
+            return -2 * apexJumpHeight / timeToReachApex / timeToReachApex / Physics2D.gravity.y;
+        }
+    }
+
     // Checks if the character is standing on the ground.
     private bool IsGrounded()
     {
@@ -84,7 +99,8 @@ public class ComplexPlayerController : MonoBehaviour
         if (inputX > 0.0f)
         {
             spriteRenderer.flipX = false;
-        } else if (inputX < 0.0f)
+        }
+        else if (inputX < 0.0f)
         {
             spriteRenderer.flipX = true;
         }

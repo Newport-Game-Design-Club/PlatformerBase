@@ -300,8 +300,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHorizontalSpeed: 7.5
-  jumpVelocity: 7.5
-  jumpHeightMultiplier: 0.5
+  apexJumpHeight: 3
+  timeToReachApex: 1
+  timeToFallToGround: 1
   jumpableSurface:
     serializedVersion: 2
     m_Bits: 64
